@@ -3,7 +3,7 @@ import nltk
 import numpy as np
 from collections import Counter
 from wordfreq import zipf_frequency
-from math import log2
+from math import log2, floor, ceil
 
 nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
@@ -49,6 +49,87 @@ def burstiness(sentences):
     mean = np.mean(lengths)
     std = np.std(lengths)
     return std / mean if mean else 0
+
+def _scaled_int(value, scale=1000, rounding_mode="round"):
+    scaled_value = value * scale
+    if rounding_mode == "floor":
+        return int(floor(scaled_value))
+    if rounding_mode == "ceil":
+        return int(ceil(scaled_value))
+    return int(round(scaled_value))
+
+def sentence_length_distribution(sentences, scale=1000, rounding_mode="round", target_ratio=0.80, tolerance=0.05):
+    lengths = [len(tokenize_words(s)) for s in sentences]
+    sentence_count = len(lengths)
+
+    if sentence_count == 0:
+        return {
+            "sentence_count": 0,
+            "scale": scale,
+            "rounding_mode": rounding_mode,
+            "target_ratio": target_ratio,
+            "tolerance": tolerance,
+            "target_bin": 0,
+            "window_bin_min": 0,
+            "window_bin_max": 0,
+            "mode_bin": 0,
+            "mode_ratio": 0,
+            "mode_count": 0,
+            "mode_percent": 0,
+            "around_target_count": 0,
+            "around_target_percent": 0,
+            "bin_frequencies": {}
+        }
+
+    mean = np.mean(lengths)
+    if mean == 0:
+        return {
+            "sentence_count": sentence_count,
+            "scale": scale,
+            "rounding_mode": rounding_mode,
+            "target_ratio": target_ratio,
+            "tolerance": tolerance,
+            "target_bin": 0,
+            "window_bin_min": 0,
+            "window_bin_max": 0,
+            "mode_bin": 0,
+            "mode_ratio": 0,
+            "mode_count": 0,
+            "mode_percent": 0,
+            "around_target_count": 0,
+            "around_target_percent": 0,
+            "bin_frequencies": {}
+        }
+
+    ratios = [length / mean for length in lengths]
+    bins = [_scaled_int(ratio, scale=scale, rounding_mode=rounding_mode) for ratio in ratios]
+
+    frequencies = Counter(bins)
+    mode_bin, mode_count = frequencies.most_common(1)[0]
+
+    target_bin = _scaled_int(target_ratio, scale=scale, rounding_mode=rounding_mode)
+    window_min = _scaled_int(target_ratio - tolerance, scale=scale, rounding_mode=rounding_mode)
+    window_max = _scaled_int(target_ratio + tolerance, scale=scale, rounding_mode=rounding_mode)
+
+    around_target_count = sum(window_min <= bucket <= window_max for bucket in bins)
+
+    return {
+        "sentence_count": sentence_count,
+        "scale": scale,
+        "rounding_mode": rounding_mode,
+        "target_ratio": target_ratio,
+        "tolerance": tolerance,
+        "target_bin": target_bin,
+        "window_bin_min": window_min,
+        "window_bin_max": window_max,
+        "mode_bin": mode_bin,
+        "mode_ratio": mode_bin / scale,
+        "mode_count": mode_count,
+        "mode_percent": (mode_count / sentence_count) * 100,
+        "around_target_count": around_target_count,
+        "around_target_percent": (around_target_count / sentence_count) * 100,
+        "bin_frequencies": dict(frequencies)
+    }
 
 def lexical_entropy(words):
     freq = Counter(words)
@@ -97,6 +178,20 @@ def interpret_rare(r):
     else:
         return "Uncommon vocabulary usage"
 
+def interpret_sentence_length_distribution(dist):
+    sentence_count = dist.get("sentence_count", 0)
+    if sentence_count < 2:
+        return "Insufficient sentence data for mode analysis"
+
+    around_target_percent = dist.get("around_target_percent", 0)
+    mode_percent = dist.get("mode_percent", 0)
+
+    if around_target_percent >= 60 or mode_percent >= 45:
+        return "High sentence-length concentration (more uniform pattern)"
+    elif around_target_percent >= 35 or mode_percent >= 25:
+        return "Moderate sentence-length concentration"
+    return "Low sentence-length concentration (more varied pattern)"
+
 #######################################
 # MAIN ANALYSIS
 #######################################
@@ -117,6 +212,13 @@ def analyze_text(text):
     metrics["avg_sentence_length"] = avg_sentence_length(sentences)
     metrics["sentence_variance"] = sentence_variance(sentences)
     metrics["burstiness"] = burstiness(sentences)
+    metrics["sentence_length_distribution"] = sentence_length_distribution(
+        sentences,
+        scale=1000,
+        rounding_mode="round",
+        target_ratio=0.80,
+        tolerance=0.05
+    )
     metrics["lexical_entropy"] = lexical_entropy(words)
 
     ###################################
@@ -126,6 +228,7 @@ def analyze_text(text):
     interpretation = {
         "TTR_meaning": interpret_ttr(metrics["type_token_ratio"]),
         "burstiness_meaning": interpret_burstiness(metrics["burstiness"]),
+        "sentence_length_mode_meaning": interpret_sentence_length_distribution(metrics["sentence_length_distribution"]),
         "entropy_meaning": interpret_entropy(metrics["lexical_entropy"]),
         "rare_word_meaning": interpret_rare(metrics["rare_word_ratio"])
     }
