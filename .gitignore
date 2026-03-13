@@ -1,0 +1,32 @@
+# IDE settings
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build directories and generated files
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+Testing/
+
+# C++ build outputs
+*.obj
+*.o
+*.pdb
+*.ilk
+*.idb
+*.lib
+*.a
+*.dll
+*.so
+*.dylib
+
+# Unified executable output folder
+project/
