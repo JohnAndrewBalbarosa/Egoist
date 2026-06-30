@@ -121,3 +121,30 @@ This is an actively maintained repository. New projects and updates are added re
 ---
 
 **Thank you for visiting! Feel free to explore, use, and contribute to any of the projects here.**
+
+## Architecture (UML)
+
+```mermaid
+graph TD
+    EGOIST["Egoist<br/>Megarepository"]
+    ACADEMICS["Academics<br/>Final Projects & Single Source Codes"]
+    COMPETITIVE["Competitive<br/>Programming<br/>Contest Solutions"]
+    OTHER["Other Projects<br/>Portfolio Items"]
+    
+    EGOIST --> ACADEMICS
+    EGOIST --> COMPETITIVE
+    EGOIST --> OTHER
+    
+    ACADEMICS --> FP["Final Project Algo<br/>Dijkstra & Routing Specs"]
+    ACADEMICS --> SS["Single Source Codes<br/>Year 1 Projects"]
+    
+    COMPETITIVE --> CPP["C++ Solutions<br/>Codeforces & Contest Problems"]
+    
+    style EGOIST fill:#f9f,stroke:#333,stroke-width:2px
+    style ACADEMICS fill:#bbf,stroke:#333,stroke-width:2px
+    style COMPETITIVE fill:#bfb,stroke:#333,stroke-width:2px
+```
+
+**Tech Stack**: C++ (primary), competitive programming focus, academic coursework
+
+**License**: MIT — see LICENSE file for details. Individual projects may have their own licenses.
