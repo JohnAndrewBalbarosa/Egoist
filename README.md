@@ -1,150 +1,70 @@
-# Egoist - Megarepository
+# Egoist
 
-Welcome to **Egoist**, a comprehensive megarepository containing all of my works, projects, and experiments. This repository serves as a centralized hub for my software development portfolio, showcasing various projects across different technologies and domains.
+## Overview
 
-## 📋 About This Repository
+Megarepository containing portfolio of projects across academics, competitive programming, and software experiments.
 
-This is a **megarepository** (monorepo) that houses multiple independent projects under a single umbrella. Each folder within this repository represents a distinct project or area of work, making it easy to browse, explore, and access different parts of my portfolio.
+Repository: [JohnAndrewBalbarosa/Egoist](https://github.com/JohnAndrewBalbarosa/Egoist)
 
-## 🚀 Getting Started
+## Problem and Goal
 
-### Cloning the Entire Repository
+This project should be read as a technical build: it identifies a concrete workflow or research problem, implements a working system around that problem, and documents enough evidence for another person to understand, run, and evaluate the result.
 
-To clone the entire repository with all projects:
+Primary goals:
 
-```bash
-git clone https://github.com/JohnAndrewBalbarosa/Egoist.git
-cd Egoist
-```
+- Explain what the project does and who it is for.
+- Show the architecture and implementation choices.
+- Provide enough setup guidance for local review.
+- Report measured results when available.
+- Make limitations and next steps explicit instead of implying unverified impact.
 
-### Cloning Specific Folders (Sparse Checkout)
+## System Design
 
-If you're only interested in a specific project or folder, you can use Git's sparse checkout feature to clone only what you need:
+Current documented components:
 
-```bash
-# Initialize a new repository
-git clone --no-checkout https://github.com/JohnAndrewBalbarosa/Egoist.git
-cd Egoist
+- Project files are organized at repository root; document the main modules as the project matures.
 
-# Enable sparse checkout
-git sparse-checkout init --cone
+Project tags:
 
-# Specify the folder(s) you want to checkout
-git sparse-checkout set <folder-name>
+- To be tagged based on the final project stack.
 
-# Checkout the files
-git checkout
-```
+## Setup and Usage
 
-Example for checking out a specific folder:
-```bash
-git clone --no-checkout https://github.com/JohnAndrewBalbarosa/Egoist.git
-cd Egoist
-git sparse-checkout init --cone
-git sparse-checkout set project-folder-name
-git checkout
-```
-
-### Downloading a Single Folder
-
-Alternatively, you can download individual folders directly from GitHub:
-1. Navigate to the folder you want on GitHub
-2. Use the "Download ZIP" option, or
-3. Use tools like `svn` for direct folder download:
+Use the commands below as the starting point for local setup. Verify environment variables, secrets, datasets, and external services before running production-like workflows.
 
 ```bash
-svn export https://github.com/JohnAndrewBalbarosa/Egoist/trunk/<folder-name>
+cmake -S . -B build
+cmake --build build
 ```
 
-## 📂 Repository Structure
+## Evaluation Method
 
-This repository is organized by project folders. Each folder contains:
-- **README.md** - Project-specific documentation
-- **Source code** - The actual implementation
-- **Dependencies** - Any required libraries or configurations
+- Define the project task and expected behavior.
+- Run representative examples or user flows.
+- Record correctness, speed, reliability, usability, and failure cases.
 
-```
-Egoist/
-├── project-1/          # Description of project 1
-├── project-2/          # Description of project 2
-├── project-3/          # Description of project 3
-└── ...                 # More projects
-```
+## Results
 
-*Note: As new projects are added, this structure will be updated accordingly.*
+- No validated quantitative results are published yet.
+- Current README status: implementation and usage are documented before formal measurement.
 
-## 🤝 Collaboration & Contact
+## Interpretation
 
-I'm always open to collaboration, feedback, and new opportunities! If you're interested in:
-- Contributing to any of the projects
-- Discussing potential collaborations
-- Reporting issues or suggesting improvements
-- Asking questions about any project
+- The project can be described as implemented or in progress, but impact claims should stay limited until measurements are collected.
+- Use the evaluation plan below to turn the project into resume-ready, evidence-backed work.
 
-### How to Reach Me:
+## Limitations
 
-- **GitHub Issues**: Open an issue in this repository for project-specific questions or bug reports
-- **GitHub Discussions**: Start a discussion for general questions or ideas
-- **Pull Requests**: Feel free to submit PRs for improvements or fixes
-- **Email**: You can reach me through my GitHub profile
+- Results should only be treated as validated when this README includes the dataset, sample size, metric definition, and reproduction steps.
+- Any AI-generated, OCR-based, scraped, or heuristic output requires manual review before being used as ground truth.
+- Environment-dependent measurements such as latency, memory use, browser behavior, and API reliability should be re-measured on the target machine.
 
-### Contributing
+## Recommendations and Future Work
 
-Contributions are welcome! Here's how you can help:
+- Add a small benchmark or validation dataset.
+- Report sample size, success rate, error rate, and runtime where applicable.
+- Add screenshots, logs, or exported reports that support the measured results.
 
-1. **Fork** the repository
-2. **Create** a new branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+## Documentation Standard
 
-Please ensure your code follows the existing style and includes appropriate documentation.
-
-## 📜 License
-
-This repository and its contents are licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-Individual projects may have their own specific licenses, which will be noted in their respective folders.
-
-## 🌟 Support
-
-If you find any of these projects useful, consider:
-- ⭐ Starring this repository
-- 🐛 Reporting bugs or issues
-- 💡 Suggesting new features or improvements
-- 🤝 Contributing to the codebase
-
-## 📊 Project Status
-
-This is an actively maintained repository. New projects and updates are added regularly. Check the commit history and individual project folders for the latest updates.
-
----
-
-**Thank you for visiting! Feel free to explore, use, and contribute to any of the projects here.**
-
-## Architecture (UML)
-
-```mermaid
-graph TD
-    EGOIST["Egoist<br/>Megarepository"]
-    ACADEMICS["Academics<br/>Final Projects & Single Source Codes"]
-    COMPETITIVE["Competitive<br/>Programming<br/>Contest Solutions"]
-    OTHER["Other Projects<br/>Portfolio Items"]
-    
-    EGOIST --> ACADEMICS
-    EGOIST --> COMPETITIVE
-    EGOIST --> OTHER
-    
-    ACADEMICS --> FP["Final Project Algo<br/>Dijkstra & Routing Specs"]
-    ACADEMICS --> SS["Single Source Codes<br/>Year 1 Projects"]
-    
-    COMPETITIVE --> CPP["C++ Solutions<br/>Codeforces & Contest Problems"]
-    
-    style EGOIST fill:#f9f,stroke:#333,stroke-width:2px
-    style ACADEMICS fill:#bbf,stroke:#333,stroke-width:2px
-    style COMPETITIVE fill:#bfb,stroke:#333,stroke-width:2px
-```
-
-**Tech Stack**: C++ (primary), competitive programming focus, academic coursework
-
-**License**: MIT — see LICENSE file for details. Individual projects may have their own licenses.
+This README follows a technical-project structure: overview, goal, system design, setup, evaluation method, results, interpretation, limitations, and recommendations. Update the Results section whenever new measurements are available so project claims stay evidence-backed.
