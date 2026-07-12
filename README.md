@@ -8,33 +8,25 @@ Repository: [JohnAndrewBalbarosa/Egoist](https://github.com/JohnAndrewBalbarosa/
 
 ## Problem and Goal
 
-This project should be read as a technical build: it identifies a concrete workflow or research problem, implements a working system around that problem, and documents enough evidence for another person to understand, run, and evaluate the result.
+**Problem.** Academic exercises, competitive-programming solutions, graphics work, mobile experiments, and personal projects become difficult to browse when scattered across repositories.
 
-Primary goals:
-
-- Explain what the project does and who it is for.
-- Show the architecture and implementation choices.
-- Provide enough setup guidance for local review.
-- Report measured results when available.
-- Make limitations and next steps explicit instead of implying unverified impact.
+**Goal.** Keep a structured megarepository that preserves source history and groups work by learning domain.
 
 ## System Design
 
-Current documented components:
-
-- Project files are organized at repository root; document the main modules as the project matures.
-
-Project tags:
-
-- To be tagged based on the final project stack.
+- `academics/`: coursework implementations.
+- `competitiveProgramming/`: algorithm/problem-solving solutions.
+- `gameDevelopment/`, `mobileProgramming/`, `visualGraphics/`: domain experiments.
+- `personalProject/`: standalone personal tools; root CMake supports compatible C/C++ targets.
 
 ## Setup and Usage
-
-Use the commands below as the starting point for local setup. Verify environment variables, secrets, datasets, and external services before running production-like workflows.
 
 ```bash
 cmake -S . -B build
 cmake --build build
+
+# Individual subprojects may have their own requirements;
+# inspect the target directory before running it.
 ```
 
 ## Evaluation Method
